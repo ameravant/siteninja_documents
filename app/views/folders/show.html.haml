@@ -1,0 +1,25 @@
+= @folder.description
+%table#file-list.full-width{:cellspacing => 0}
+  %tr
+    %th.name-column Name
+    %th.file-name-column File Name
+    %th.modified-column Date Modified
+    %th.size-column Size
+  - unless @folder.permalink == "top-folder"
+    %tr{:class => cycle('odd', 'even')}
+      %td.name-column= link_to("#{icon('folder', nil, nil, nil, '', 'color')} ../", @folder.parent)
+      %td{:colspan => 3}
+  - for folder in @folder.children
+    %tr{:class => cycle('odd', 'even')}
+      %td.name-column= link_to ("#{icon('folder', nil, nil, nil, '', 'color')} #{folder.title}", folder)
+      %td=''
+      %td{:colspan => 3}= folder.updated_at.strftime("%m/%d/%Y %H:%M")
+  - for asset in @folder.assets
+    %tr{:class => cycle('odd', 'even')}
+      %td.name-column= link_to("#{icon('page_white_text', nil, nil, nil, '', 'color')} #{asset.name}", asset.file.url)
+      %td.file-name-column= link_to(asset.file_file_name, asset.file.url)
+      %td.modified-column= asset.updated_at.strftime("%m/%d/%Y %H:%M")
+      %td.size-column
+        = number_to_human_size(File.size(asset.file))
+        = ' ' + link_to("#{icon('disk', nil, nil, nil, '', 'color')}", asset.file.url)
+      

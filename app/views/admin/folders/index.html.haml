@@ -1,0 +1,35 @@
+- content_for :meta_title do
+  Documents
+
+- content_for :head do
+  %style{:type => "text/css", :media => "screen"}
+    ul.sortable { list-style: none; margin: 4px 0 0 -30px; }
+    ul.sortable ul { margin: 4px 0 0 -20px; }
+    ul.sortable li { line-height: 2em; }
+    div.folder-title-header { float: left; width: 60px; font-weight: bold; color: #666; margin: 0 0 0 10px; }
+    div.folder-options-header { float: right; width: 60px; text-align: left; font-weight: bold; color: #666; }
+    div.folder-assets-header { float: right; width: 100px; text-align: left; font-weight: bold; margin-right: 20px; color: #666; }
+    div.folder-title { float: left; margin-right: 20px; }
+    div.folder-options { text-align: right; float: right; width: 60px; }
+    div.folder-assets { float: right; margin-right: 20px; width: 100px; text-align: left; }
+%h1= large_icon('Folder3') + ' ' + yield(:meta_title).strip
+
+.box
+  #reorder_status.gray.float-right{:style => "display: none"}
+    = spinner
+    Reordering folders...
+  %span.hmenu
+    = icon "Plus", new_admin_folder_path
+    = link_to "Make a new folder", new_admin_folder_path
+  %span.hmenu
+    = icon "Save", [:new, :admin, @folders.first, :asset]
+    = link_to "Upload a new asset to top folder", [:new, :admin, @folders.first, :asset]
+%br
+%div.folder-title-header
+  Title
+%div.folder-options-header
+  Options
+%div.folder-assets-header
+  Files
+= clear
+- build_tree

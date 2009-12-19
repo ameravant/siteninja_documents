@@ -1,0 +1,9 @@
+- content_for :meta_title do
+  Edit folder:
+  = @folder.title
+
+%h1= yield :meta_title
+
+- form_for :folder, :url => admin_folder_path(@folder), :html => { :method => :put, :onsubmit => "form_submitted();" } do |f|
+  = render :partial => "form", :locals => { :f => f }
+

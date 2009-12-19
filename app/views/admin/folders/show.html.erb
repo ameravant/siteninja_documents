@@ -1,0 +1,24 @@
+<%- content_for :title do -%><%= h @folder.title %><%- end -%>
+
+
+<h1><%= yield :title %></h1>
+
+<div>
+  <div id="reorder_status" class="gray float-right" style="display: none;">
+    <%= spinner %> Reordering assets...
+    <span id="reorder_success" class="bold green" style="display: none;">Done!</span>
+    <span id="reorder_failure" class="bold red" style="display: none;">FAILED!</span>
+  </div>
+  <span class="hmenu">
+    <%= icon "Plus", new_admin_folder_asset_path(@folder) %>
+    <%= link_to "Add a file to this folder", new_admin_folder_asset_path(@folder) %>
+  </span>
+  <span class="hmenu">
+    <%= icon "Gear", edit_admin_folder_path(@folder) %>
+    <%= link_to "Edit folder", edit_admin_folder_path(@folder) %>
+  </span>
+</div>
+
+<%= @folder.assets.empty? ? "There are no files in this folder" : render :partial => @folder.assets %>
+<%= clear %>
+

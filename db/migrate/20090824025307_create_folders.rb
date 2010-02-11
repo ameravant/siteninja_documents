@@ -10,6 +10,7 @@ class CreateFolders < ActiveRecord::Migration
       t.boolean :can_delete, :default => true
       t.timestamps
     end
+    Folder.create(:title => "Top Folder", :permalink => "top-folder", :can_delete => false)
   end
 
   def self.down

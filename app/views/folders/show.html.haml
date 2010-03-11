@@ -20,6 +20,6 @@
       %td.file-name-column= link_to(asset.file_file_name, asset.file.url)
       %td.modified-column= asset.updated_at.strftime("%m/%d/%Y %H:%M")
       %td.size-column
-        = number_to_human_size(File.size(asset.file))
+        = number_to_human_size(asset.file_file_size)
         = ' ' + link_to("#{icon('disk', nil, nil, nil, '', 'color')}", asset.file.url)
       

@@ -1,5 +1,6 @@
 class FoldersController < ApplicationController
   unloadable # http://dev.rubyonrails.org/ticket/6001
+  before_filter :get_folder_or_404
   add_breadcrumb "Home", "root_path" 
   add_breadcrumb "Documents", "documents_path"
 
@@ -7,12 +8,6 @@ class FoldersController < ApplicationController
     @page = Page.find_by_permalink("documents")
     @footer_pages = Page.find(:all, :conditions => {:show_in_footer => true}, :order => :footer_pos )
     begin
-      if params[:id]
-        @folder = Folder.find_by_permalink!(params[:id])
-      else
-        @folder = Folder.find_by_permalink("top-folder")
-      end
-      
       @folder_tmp = []
       build_tree(@folder)
       for folder in @folder_tmp.reverse
@@ -22,9 +17,6 @@ class FoldersController < ApplicationController
           add_breadcrumb folder.title
         end
       end
-      
-    rescue ActiveRecord::RecordNotFound
-      redirect_to '/404.html'
     end
   end
 private
@@ -36,5 +28,12 @@ private
       build_tree(parent_folder)
     end  
   end
-
+  def get_folder_or_404
+    if params[:id]
+      @folder = Folder.find_by_permalink(params[:id])
+    else
+      @folder = Folder.find_by_permalink("top-folder")
+    end
+    render_404 if @folder.blank?
+  end
 end
